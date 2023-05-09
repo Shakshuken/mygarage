@@ -19,6 +19,14 @@ const H2 = styled.h2`
   font-family: "Barlow Condensed";
 `;
 
+const H3 = styled.h3`
+  margin: 0;
+  color: #f5f5f5;
+  font-weight: 400;
+  font-size: 32px;
+  font-family: "Barlow Condensed";
+`;
+
 const Paragraph = styled.p`
   margin: 0;
   color: #f5f5f5;
@@ -37,7 +45,7 @@ const PSlim = styled.p`
 `;
 
 type TypographyProps = {
-  variant: "h1" | "h2" | "p" | "slim";
+  variant: "h1" | "h2" | "h3" | "p" | "slim";
   color: "primary" | "secondary" | "success";
 };
 
@@ -73,6 +81,15 @@ const Typography: FC<PropsWithChildren<TypographyProps>> = ({
         >
           {children}
         </H2>
+      )}
+      {variant === "h3" && (
+        <H3
+          css={css`
+            color: ${colorCode};
+          `}
+        >
+          {children}
+        </H3>
       )}
       {variant === "p" && (
         <Paragraph
