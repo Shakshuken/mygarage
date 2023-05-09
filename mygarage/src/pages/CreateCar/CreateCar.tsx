@@ -50,6 +50,10 @@ const CreateCar = () => {
               {...register("description")}
             />
           </FormLabel>
+          <FormLabel htmlFor='img'>
+            Image
+            <TextField type='file' id='img' />
+          </FormLabel>
           <ButtonBox>
             <Button color='default'>
               <Typography variant='slim' color='primary'>
