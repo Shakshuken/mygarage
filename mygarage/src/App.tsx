@@ -7,6 +7,7 @@ import CreateDriver from "./pages/CreateDriver/CreateDriver";
 import DriverDetails from "./pages/DriverDetails/DriverDetails";
 import Drivers from "./pages/Drivers/Drivers";
 import Main from "./pages/Main/Main";
+import StatisticsPage from "./pages/StatisticsPage/StatisticsPage";
 
 function App() {
   return (
