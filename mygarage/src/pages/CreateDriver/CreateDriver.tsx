@@ -1,14 +1,10 @@
-/* @jsxImportSource @emotion/react */
-
 import Typography from "../../UI/Typography";
 import Button from "../../UI/Button";
 import { useForm, SubmitHandler } from "react-hook-form";
 import FormLabel from "../../UI/FormLabel";
 import TextField from "../../UI/TextField";
-import { ControlButtons } from "../../layouts/components";
-import Textarea from "../../UI/Textarea";
 import { ButtonBox, MainBox, SubheaderBox, TextBox } from "./styles";
-import { css } from "@emotion/react";
+import ControlButtons from "../../layouts/components/ControlButtons/ControlButtons";
 
 type Inputs = {
   first_name: string;

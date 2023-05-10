@@ -3,7 +3,6 @@
 import Typography from "../../UI/Typography";
 import Button from "../../UI/Button";
 import { FC, useState } from "react";
-import { ControlButtons } from "../../layouts/components";
 import {
   ButtonBox,
   CarCardBox,
@@ -11,6 +10,9 @@ import {
   CarImg,
   CardContentBox,
 } from "./styles";
+import ControlButtons from "../../layouts/components/ControlButtons/ControlButtons";
+import { Link } from "react-router-dom";
+import { css } from "@emotion/react";
 
 type CarCardProps = {
   id: number;
@@ -37,7 +39,7 @@ const CAR_DATA = [
   },
 ];
 
-const CarCard: FC<CarCardProps> = ({ name }) => {
+const CarCard: FC<CarCardProps> = ({ id, name }) => {
   return (
     <CarCardBox>
       <CarImg src='/icons/2014_audi_q5_angularfront.jpg' alt='car' />
@@ -46,11 +48,19 @@ const CarCard: FC<CarCardProps> = ({ name }) => {
           {name}
         </Typography>
         <ButtonBox>
-          <Button color='default'>
-            <Typography variant='slim' color='primary'>
-              View Details
-            </Typography>
-          </Button>
+          <Link
+            css={css`
+              color: #f5f5f5;
+              text-decoration: none;
+            `}
+            to={`/cars/${id}`}
+          >
+            <Button color='default'>
+              <Typography variant='slim' color='primary'>
+                View Details
+              </Typography>
+            </Button>
+          </Link>
           <Button color='danger'>
             <Typography variant='slim' color='primary'>
               Delete

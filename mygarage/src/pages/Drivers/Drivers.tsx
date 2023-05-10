@@ -1,7 +1,8 @@
+/* @jsxImportSource @emotion/react */
+
 import Typography from "../../UI/Typography";
 import Button from "../../UI/Button";
 import { FC, useState } from "react";
-import { ControlButtons } from "../../layouts/components";
 import {
   ButtonBox,
   DriverCardBox,
@@ -9,27 +10,66 @@ import {
   DriverGrid,
   DriverImg,
 } from "./styles";
+import ControlButtons from "../../layouts/components/ControlButtons/ControlButtons";
+import { Link } from "react-router-dom";
+import { css } from "@emotion/react";
 
-const DriverCard = () => {
+const DRIVER_DATA = [
+  {
+    id: 1,
+    name: "Marcus Marcusson",
+    phone: "2450452452",
+    email: "marcus.marcusson@gmail.com",
+  },
+  {
+    id: 2,
+    name: "Zaza",
+    phone: "3413515135",
+    email: "za.za@gmail.com",
+  },
+  {
+    id: 3,
+    name: "The Rock",
+    phone: "133",
+    email: "rock@gmail.com",
+  },
+];
+
+type DriverCardProps = {
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
+};
+
+const DriverCard: FC<DriverCardProps> = ({ id, name, phone, email }) => {
   return (
     <DriverCardBox>
       <DriverImg src='/icons/v3_0882882.jpg' alt='driver' />
       <DriverContentBox>
         <Typography variant='slim' color='primary'>
-          Name: Marcus Marcusson
+          Name: {name}
         </Typography>
         <Typography variant='slim' color='primary'>
-          Phone: 2450452452
+          Phone: {phone}
         </Typography>
         <Typography variant='slim' color='primary'>
-          Email: marcus.marcusson@gmail.com
+          Email: {email}
         </Typography>
         <ButtonBox>
-          <Button color='default'>
-            <Typography variant='slim' color='primary'>
-              View Details
-            </Typography>
-          </Button>
+          <Link
+            css={css`
+              color: #f5f5f5;
+              text-decoration: none;
+            `}
+            to={`/drivers/${id}`}
+          >
+            <Button color='default'>
+              <Typography variant='slim' color='primary'>
+                View Details
+              </Typography>
+            </Button>
+          </Link>
           <Button color='danger'>
             <Typography variant='slim' color='primary'>
               Delete
@@ -46,10 +86,14 @@ const Drivers = () => {
     <>
       <ControlButtons />
       <DriverGrid>
-        <DriverCard />
-        <DriverCard />
-        <DriverCard />
-        <DriverCard />
+        {DRIVER_DATA.map((driver: DriverCardProps) => (
+          <DriverCard
+            id={driver.id}
+            name={driver.name}
+            phone={driver.phone}
+            email={driver.email}
+          />
+        ))}
       </DriverGrid>
     </>
   );

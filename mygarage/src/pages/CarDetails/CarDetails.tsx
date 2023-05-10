@@ -4,7 +4,6 @@ import { css } from "@emotion/react";
 import Typography from "../../UI/Typography";
 import Button from "../../UI/Button";
 import { FC, useState } from "react";
-import { ControlButtons } from "../../layouts/components";
 import {
   ButtonBox,
   CarImg,
@@ -14,6 +13,7 @@ import {
   TextBox,
   TextDivider,
 } from "./styles";
+import ControlButtons from "../../layouts/components/ControlButtons/ControlButtons";
 
 const CarDetails = () => {
   return (
