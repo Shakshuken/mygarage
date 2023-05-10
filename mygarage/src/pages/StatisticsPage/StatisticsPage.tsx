@@ -1,5 +1,5 @@
 import Typography from "../../UI/Typography";
-import { ControlButtons } from "../../layouts/components";
+import ControlButtons from "../../layouts/components/ControlButtons/ControlButtons";
 import {
   DriversGridContainer,
   FlexContainer,
@@ -27,23 +27,23 @@ const StatisticsPage = () => {
       <ControlButtons />
       <FlexContainer>
         <FlexTable>
-          <Typography variant="h1" color="primary">
+          <Typography variant='h1' color='primary'>
             Cars
           </Typography>
           <div>
             <GridContainer>
               <TableElement>
-                <Typography variant="h2" color="secondary">
+                <Typography variant='h2' color='secondary'>
                   ID
                 </Typography>
               </TableElement>
               <TableElement>
-                <Typography variant="h2" color="secondary">
+                <Typography variant='h2' color='secondary'>
                   Car
                 </Typography>
               </TableElement>
               <TableElement>
-                <Typography variant="h2" color="secondary">
+                <Typography variant='h2' color='secondary'>
                   Trips
                 </Typography>
               </TableElement>
@@ -52,28 +52,28 @@ const StatisticsPage = () => {
           </div>
         </FlexTable>
         <FlexTable>
-          <Typography variant="h1" color="primary">
+          <Typography variant='h1' color='primary'>
             DriversTable
           </Typography>
           <div>
             <DriversGridContainer>
               <TableElement>
-                <Typography variant="h2" color="secondary">
+                <Typography variant='h2' color='secondary'>
                   ID
                 </Typography>
               </TableElement>
               <TableElement>
-                <Typography variant="h2" color="secondary">
+                <Typography variant='h2' color='secondary'>
                   Driver
                 </Typography>
               </TableElement>
               <TableElement>
-                <Typography variant="h2" color="secondary">
+                <Typography variant='h2' color='secondary'>
                   Trips
                 </Typography>
               </TableElement>
               <TableElement>
-                <Typography variant="h2" color="secondary">
+                <Typography variant='h2' color='secondary'>
                   Favourite Car
                 </Typography>
               </TableElement>
@@ -93,19 +93,19 @@ const CarsTable = () => {
         return (
           <>
             <TableElement>
-              <Typography variant="p" color="primary">
+              <Typography variant='p' color='primary'>
                 {data.id}
               </Typography>
             </TableElement>
 
             <TableElement>
-              <Typography variant="p" color="primary">
+              <Typography variant='p' color='primary'>
                 {data.car}
               </Typography>
             </TableElement>
 
             <TableElement>
-              <Typography variant="p" color="primary">
+              <Typography variant='p' color='primary'>
                 {data.trips}
               </Typography>
             </TableElement>
@@ -123,25 +123,25 @@ const DriversTable = () => {
         return (
           <>
             <TableElement>
-              <Typography variant="p" color="primary">
+              <Typography variant='p' color='primary'>
                 {data.id}
               </Typography>
             </TableElement>
 
             <TableElement>
-              <Typography variant="p" color="primary">
+              <Typography variant='p' color='primary'>
                 {data.driver}
               </Typography>
             </TableElement>
 
             <TableElement>
-              <Typography variant="p" color="primary">
+              <Typography variant='p' color='primary'>
                 {data.trips}
               </Typography>
             </TableElement>
 
             <TableElement>
-              <Typography variant="p" color="primary">
+              <Typography variant='p' color='primary'>
                 {data.favCar}
               </Typography>
             </TableElement>
