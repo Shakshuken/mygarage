@@ -13,36 +13,21 @@ import {
 import ControlButtons from "../../layouts/components/ControlButtons/ControlButtons";
 import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
+import { useQuery } from "react-query";
+import fetchCars from "../../hooks/useGetCar";
 
 type CarCardProps = {
   id: number;
   name: string;
   description: string;
+  image_url: string;
 };
 
-const CAR_DATA = [
-  {
-    id: 1,
-    name: "Audi Q5 2014",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tincidunt velit dui, ut tincidunt tellus sagittis nec. Vivamus in consectetur nisi. Nullam venenatis arcu pellentesque urna volutpat viverra. Aliquam quis ex orci. Donec vitae odio pellentesque, aliquet nibh ut, egestas justo.",
-  },
-  {
-    id: 2,
-    name: "Chevrolet Aveo 2012",
-    description: "description",
-  },
-  {
-    id: 3,
-    name: "Dee Pnigger",
-    description: "Description bruh",
-  },
-];
-
-const CarCard: FC<CarCardProps> = ({ id, name }) => {
+const CarCard: FC<CarCardProps> = ({ id, name, image_url }) => {
+  console.log(image_url);
   return (
     <CarCardBox>
-      <CarImg src='/icons/2014_audi_q5_angularfront.jpg' alt='car' />
+      <CarImg src={"http://localhost:8000" + image_url} alt='car' />
       <CardContentBox>
         <Typography variant='p' color='primary'>
           {name}
@@ -73,14 +58,21 @@ const CarCard: FC<CarCardProps> = ({ id, name }) => {
 };
 
 const Cars = () => {
-  const [data, setData] = useState(CAR_DATA);
+  const { data, isLoading, error } = useQuery("cars", fetchCars);
+  console.log(data);
+  if (isLoading) return <p>Loading..</p>;
 
   return (
     <>
       <ControlButtons />
       <CarGrid>
         {data.map((car: CarCardProps) => (
-          <CarCard id={car.id} name={car.name} description={car.description} />
+          <CarCard
+            id={car.id}
+            name={car.name}
+            description={car.description}
+            image_url={car.image_url}
+          />
         ))}
       </CarGrid>
     </>

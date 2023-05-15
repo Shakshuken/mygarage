@@ -1,8 +1,10 @@
 /* @jsxImportSource @emotion/react */
 
+import { useQuery } from "react-query";
+
 import Typography from "../../UI/Typography";
 import Button from "../../UI/Button";
-import { FC, useState } from "react";
+import { FC } from "react";
 import {
   ButtonBox,
   DriverCardBox,

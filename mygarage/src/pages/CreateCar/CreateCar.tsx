@@ -1,17 +1,19 @@
 /* @jsxImportSource @emotion/react */
 
 import Typography from "../../UI/Typography";
-import Button from "../../UI/Button";
 import { useForm, SubmitHandler } from "react-hook-form";
 import FormLabel from "../../UI/FormLabel";
 import TextField from "../../UI/TextField";
 import Textarea from "../../UI/Textarea";
-import { ButtonBox, MainBox } from "./styles";
+import { Button, ButtonBox, MainBox } from "./styles";
 import ControlButtons from "../../layouts/components/ControlButtons/ControlButtons";
+import { useCreateCar } from "../../hooks/useCreateCar";
 
-type Inputs = { name: string; description: string };
+type Inputs = { name: string; description: string; img: FileList };
 
 const CreateCar = () => {
+  const createUser = useCreateCar();
+
   const methods = useForm<Inputs>({
     defaultValues: {
       name: "",
@@ -27,6 +29,8 @@ const CreateCar = () => {
 
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
     console.log("wtf");
+
+    createUser.mutate(data);
   };
 
   return (
@@ -52,10 +56,10 @@ const CreateCar = () => {
           </FormLabel>
           <FormLabel htmlFor='img'>
             Image
-            <TextField type='file' id='img' />
+            <TextField type='file' id='img' {...register("img")} />
           </FormLabel>
           <ButtonBox>
-            <Button color='default'>
+            <Button type='submit'>
               <Typography variant='slim' color='primary'>
                 Create
               </Typography>

@@ -12,3 +12,17 @@ export const MainBox = styled.div`
   flex-direction: column;
   gap: 5px;
 `;
+
+export const Button = styled.button`
+  width: 86px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 5px 10px;
+  color: #f5f5f5;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #53b6f5;
+`;

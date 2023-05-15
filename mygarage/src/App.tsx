@@ -9,23 +9,28 @@ import DriverDetails from "./pages/DriverDetails/DriverDetails";
 import Drivers from "./pages/Drivers/Drivers";
 import Main from "./pages/Main/Main";
 import StatisticsPage from "./pages/StatisticsPage/StatisticsPage";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <AppLayout>
-      <Routes>
-        <Route path='/' element={<Main />} />
-        <Route path='/cars' element={<Cars />} />
-        <Route path='/drivers' element={<Drivers />} />
-        <Route path='/login' element={<Auth />} />
-        <Route path='/stats' element={<StatisticsPage />} />
-        <Route path='/create-car' element={<CreateCar />} />
-        <Route path='/create-driver' element={<CreateDriver />} />
-        <Route path='/cars/:id' element={<CarDetails />} />
-        <Route path='/drivers/:id' element={<DriverDetails />} />
-        <Route path='*' element={<p>Not Found</p>} />
-      </Routes>
-    </AppLayout>
+    <QueryClientProvider client={queryClient}>
+      <AppLayout>
+        <Routes>
+          <Route path='/' element={<Main />} />
+          <Route path='/cars' element={<Cars />} />
+          <Route path='/drivers' element={<Drivers />} />
+          <Route path='/login' element={<Auth />} />
+          <Route path='/stats' element={<StatisticsPage />} />
+          <Route path='/create-car' element={<CreateCar />} />
+          <Route path='/create-driver' element={<CreateDriver />} />
+          <Route path='/cars/:id' element={<CarDetails />} />
+          <Route path='/drivers/:id' element={<DriverDetails />} />
+          <Route path='*' element={<p>Not Found</p>} />
+        </Routes>
+      </AppLayout>
+    </QueryClientProvider>
   );
 }
 

@@ -17,6 +17,7 @@ type Inputs = {
   authority: string;
   license_num: string;
   category: string;
+  img: string;
 };
 
 const CreateDriver = () => {
