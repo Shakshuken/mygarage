@@ -53,7 +53,7 @@ const StatisticsPage = () => {
         </FlexTable>
         <FlexTable>
           <Typography variant='h1' color='primary'>
-            DriversTable
+            Drivers
           </Typography>
           <div>
             <DriversGridContainer>

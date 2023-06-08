@@ -14,16 +14,27 @@ import {
   TextDivider,
 } from "./styles";
 import ControlButtons from "../../layouts/components/ControlButtons/ControlButtons";
+import { useQuery } from "react-query";
+import fetchCar from "../../hooks/useCar";
+import { Link, useParams } from "react-router-dom";
 
 const CarDetails = () => {
+  const { id } = useParams();
+
+  const { data, isLoading, error } = useQuery(["drivers", id], () =>
+    fetchCar(id)
+  );
+
+  if (isLoading) return <p>Loading..</p>;
+
   return (
     <>
       <ControlButtons />
       <MainBox>
-        <CarImg src='/icons/2014_audi_q5_angularfront.jpg' alt='car' />
+        <CarImg src={"http://localhost:8000" + data.data.image_url} alt='car' />
         <MainTextBox>
           <Typography variant='h1' color='primary'>
-            Audi Q5 2014
+            {data.data.name}
           </Typography>
           <TextBox>
             <Typography variant='p' color='secondary'>
@@ -47,19 +58,22 @@ const CarDetails = () => {
           </TextBox>
           <DescriptionBox>
             <Typography variant='p' color='secondary'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-              tincidunt velit dui, ut tincidunt tellus sagittis nec. Vivamus in
-              consectetur nisi. Nullam venenatis arcu pellentesque urna volutpat
-              viverra. Aliquam quis ex orci. Donec vitae odio pellentesque,
-              aliquet nibh ut, egestas justo.
+              {data.data.description}
             </Typography>
           </DescriptionBox>
           <ButtonBox>
-            <Button color='default'>
-              <Typography variant='slim' color='primary'>
-                Edit Details
-              </Typography>
-            </Button>
+            <Link
+              css={css`
+                text-decoration: none;
+              `}
+              to={`/edit-car/${id}`}
+            >
+              <Button color='default'>
+                <Typography variant='slim' color='primary'>
+                  Edit Details
+                </Typography>
+              </Button>
+            </Link>
           </ButtonBox>
         </MainTextBox>
       </MainBox>

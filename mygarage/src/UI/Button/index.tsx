@@ -2,9 +2,11 @@
 
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { FC, PropsWithChildren } from "react";
+import { ButtonHTMLAttributes, FC, PropsWithChildren } from "react";
 
-type ButtonProps = { color: "default" | "danger" };
+type ButtonProps = {
+  color: "default" | "danger";
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const colorToCodeMap = {
   default: "#53B6F5",
@@ -24,7 +26,11 @@ const CustomButton = styled.button`
   cursor: pointer;
 `;
 
-const Button: FC<PropsWithChildren<ButtonProps>> = ({ children, color }) => {
+const Button: FC<PropsWithChildren<ButtonProps>> = ({
+  children,
+  color,
+  ...rest
+}) => {
   const colorCode = colorToCodeMap[color];
 
   return (
@@ -32,6 +38,7 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({ children, color }) => {
       css={css`
         background-color: ${colorCode};
       `}
+      {...rest}
     >
       {children}
     </CustomButton>

@@ -2,7 +2,7 @@
 
 import Typography from "../../UI/Typography";
 import Button from "../../UI/Button";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   ButtonBox,
   CarCardBox,
@@ -14,17 +14,20 @@ import ControlButtons from "../../layouts/components/ControlButtons/ControlButto
 import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
 import { useQuery } from "react-query";
-import fetchCars from "../../hooks/useGetCar";
+import fetchCars from "../../hooks/useGetCars";
+import useDeleteCar from "../../hooks/useDeleteCar";
+import { setCars, setError } from "../../store/carsSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 type CarCardProps = {
   id: number;
   name: string;
   description: string;
   image_url: string;
+  onDelete?: () => void;
 };
 
-const CarCard: FC<CarCardProps> = ({ id, name, image_url }) => {
-  console.log(image_url);
+const CarCard: FC<CarCardProps> = ({ id, name, image_url, onDelete }) => {
   return (
     <CarCardBox>
       <CarImg src={"http://localhost:8000" + image_url} alt='car' />
@@ -46,7 +49,7 @@ const CarCard: FC<CarCardProps> = ({ id, name, image_url }) => {
               </Typography>
             </Button>
           </Link>
-          <Button color='danger'>
+          <Button color='danger' onClick={onDelete}>
             <Typography variant='slim' color='primary'>
               Delete
             </Typography>
@@ -58,8 +61,26 @@ const CarCard: FC<CarCardProps> = ({ id, name, image_url }) => {
 };
 
 const Cars = () => {
-  const { data, isLoading, error } = useQuery("cars", fetchCars);
-  console.log(data);
+  const dispatch = useDispatch();
+  const { data, isLoading, error } = useSelector((state: any) => state.cars);
+
+  const { isLoading: queryIsLoading } = useQuery("cars", fetchCars, {
+    onSuccess: (data) => {
+      dispatch(setCars(data));
+    },
+    onError: (error) => {
+      dispatch(setError(error));
+    },
+  });
+
+  useEffect(() => {
+    if (!queryIsLoading) {
+      dispatch(setCars(data));
+    }
+  }, [dispatch, data, queryIsLoading]);
+
+  const { deleteCar } = useDeleteCar();
+
   if (isLoading) return <p>Loading..</p>;
 
   return (
@@ -72,6 +93,7 @@ const Cars = () => {
             name={car.name}
             description={car.description}
             image_url={car.image_url}
+            onDelete={() => deleteCar(car.id)}
           />
         ))}
       </CarGrid>
