@@ -11,20 +11,31 @@ import {
 import { TextBox } from "../CarDetails/styles";
 import Button from "../../UI/Button";
 import ControlButtons from "../../layouts/components/ControlButtons/ControlButtons";
+import useDriver from "../../hooks/useDriver";
+import { Link, useParams } from "react-router-dom";
+import fetchDriver from "../../hooks/useDriver";
+import { useQuery } from "react-query";
 
 const DriverDetails = () => {
+  const { id } = useParams();
+
+  const { data, isLoading, error } = useQuery(["drivers", id], () =>
+    fetchDriver(id)
+  );
+
+  if (isLoading) return <p>Loading..</p>;
+
   return (
     <div>
       <ControlButtons />
 
       <DriverContainer>
-        <DriverImg src='/icons/v3_0882882.jpg' alt='' />
+        <DriverImg src={"http://localhost:8000" + data.data.image_url} alt='' />
 
         <div>
           <Typography variant='h1' color='primary'>
-            Marcus Marcusson
+            {data.data.first_name} {data.data.last_name}
           </Typography>
-
           <TextBox>
             <Typography variant='p' color='secondary'>
               Status:
@@ -33,7 +44,6 @@ const DriverDetails = () => {
               On the way
             </Typography>
           </TextBox>
-
           <TextBox>
             <Typography variant='p' color='secondary'>
               Car:
@@ -42,71 +52,71 @@ const DriverDetails = () => {
               Audi Q5 2014
             </Typography>
           </TextBox>
-
           <Typography variant='h2' color='primary'>
             Driver License
           </Typography>
-
           <TextBox>
             <Typography variant='p' color='secondary'>
               Date of birth:
             </Typography>
             <Typography variant='p' color='primary'>
-              01.01.1987
+              {data.data.birth_date}
             </Typography>
           </TextBox>
-
           <TextBox>
             <Typography variant='p' color='secondary'>
               Date of issue:
             </Typography>
             <Typography variant='p' color='primary'>
-              01.01.2010
+              {data.data.issue_date}
             </Typography>
           </TextBox>
-
           <TextBox>
             <Typography variant='p' color='secondary'>
               Expiration date:
             </Typography>
             <Typography variant='p' color='primary'>
-              01.01.2030
+              {data.data.expiration_date}
             </Typography>
           </TextBox>
-
           <TextBox>
             <Typography variant='p' color='secondary'>
               The issuing authority:
             </Typography>
             <Typography variant='p' color='primary'>
-              Centre of SAI
+              {data.data.authority}
             </Typography>
           </TextBox>
-
           <TextBox>
             <Typography variant='p' color='secondary'>
               License number:
             </Typography>
             <Typography variant='p' color='primary'>
-              BAH 340143
+              {data.data.license_num}
             </Typography>
           </TextBox>
-
           <TextBox>
             <Typography variant='p' color='secondary'>
               Category:
             </Typography>
             <Typography variant='p' color='primary'>
-              B
+              {data.data.category}
             </Typography>
           </TextBox>
         </div>
       </DriverContainer>
-      <Button color='default'>
-        <Typography variant='slim' color='primary'>
-          Edit Details
-        </Typography>
-      </Button>
+      <Link
+        css={css`
+          text-decoration: none;
+        `}
+        to={`/edit-driver/${id}`}
+      >
+        <Button color='default'>
+          <Typography variant='slim' color='primary'>
+            Edit Details
+          </Typography>
+        </Button>
+      </Link>
 
       <DriverTable />
     </div>
@@ -219,11 +229,3 @@ const DriverTable = () => {
 };
 
 export default DriverDetails;
-
-{
-  /* <TableGrid>
-    {TABLE_DATA.map((data)=>{
-      data.
-    })}
-  </TableGrid>; */
-}

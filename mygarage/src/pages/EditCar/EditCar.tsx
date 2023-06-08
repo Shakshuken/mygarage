@@ -7,12 +7,14 @@ import TextField from "../../UI/TextField";
 import Textarea from "../../UI/Textarea";
 import { Button, ButtonBox, MainBox } from "./styles";
 import ControlButtons from "../../layouts/components/ControlButtons/ControlButtons";
-import { useCreateCar } from "../../hooks/useCreateCar";
+import { useEditCar } from "../../hooks/useEditCar";
+import { useParams } from "react-router-dom";
 
-type Inputs = { name: string; description: string; img: FileList };
+type Inputs = { id: string; name: string; description: string; img: FileList };
 
-const CreateCar = () => {
-  const createCar = useCreateCar();
+const EditCar = () => {
+  const { id } = useParams();
+  const { editCar, isEditing } = useEditCar();
 
   const methods = useForm<Inputs>({
     defaultValues: {
@@ -28,9 +30,11 @@ const CreateCar = () => {
   } = methods;
 
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-    console.log("wtf");
+    if (id) {
+      editCar(id, data);
+    }
 
-    createCar.mutate(data);
+    console.log(data);
   };
 
   return (
@@ -38,12 +42,12 @@ const CreateCar = () => {
       <ControlButtons />
       <MainBox>
         <Typography variant='h1' color='primary'>
-          Create Car
+          Edit Car
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormLabel htmlFor='name'>
             Name
-            <TextField type='text' id='username' {...register("name")} />
+            <TextField type='text' id='name' {...register("name")} />
           </FormLabel>
           <FormLabel htmlFor='description'>
             Description
@@ -59,9 +63,9 @@ const CreateCar = () => {
             <TextField type='file' id='img' {...register("img")} />
           </FormLabel>
           <ButtonBox>
-            <Button type='submit'>
+            <Button type='submit' disabled={isEditing}>
               <Typography variant='slim' color='primary'>
-                Create
+                {isEditing ? "Editing..." : "Edit"}
               </Typography>
             </Button>
           </ButtonBox>
@@ -71,4 +75,4 @@ const CreateCar = () => {
   );
 };
 
-export default CreateCar;
+export default EditCar;

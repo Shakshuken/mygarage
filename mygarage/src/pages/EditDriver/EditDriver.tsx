@@ -3,10 +3,12 @@ import Button from "../../UI/Button";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import FormLabel from "../../UI/FormLabel";
 import TextField from "../../UI/TextField";
-import { ButtonBox, MainBox, SubheaderBox, TextBox } from "./styles";
 import ControlButtons from "../../layouts/components/ControlButtons/ControlButtons";
 import CustomDatePicker from "../../UI/DatePicker";
-import { useCreateDriver } from "../../hooks/useCreateDriver";
+import { ButtonBox, MainBox, SubheaderBox, TextBox } from "./styles";
+
+import { useEditDriver } from "../../hooks/useEditDriver";
+import { useParams } from "react-router-dom";
 
 type Inputs = {
   first_name: string;
@@ -22,15 +24,16 @@ type Inputs = {
   img: FileList;
 };
 
-const CreateDriver = () => {
+const EditDriver = () => {
+  const { id } = useParams();
+  const { editDriver, isEditing } = useEditDriver();
+
   const methods = useForm<Inputs>({
     defaultValues: {
       first_name: "",
       last_name: "",
     },
   });
-
-  const createDriver = useCreateDriver();
 
   const {
     register,
@@ -41,7 +44,9 @@ const CreateDriver = () => {
   } = methods;
 
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-    createDriver.mutate(data);
+    if (id) {
+      editDriver(id, data);
+    }
 
     console.log(data);
   };
@@ -51,7 +56,7 @@ const CreateDriver = () => {
       <ControlButtons />
       <MainBox>
         <Typography variant='h1' color='primary'>
-          Create Driver
+          Edit Driver
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextBox>
@@ -158,7 +163,7 @@ const CreateDriver = () => {
           <ButtonBox>
             <Button color='default'>
               <Typography variant='slim' color='primary'>
-                Create
+                {isEditing ? "Editing..." : "Edit"}
               </Typography>
             </Button>
           </ButtonBox>
@@ -168,4 +173,4 @@ const CreateDriver = () => {
   );
 };
 
-export default CreateDriver;
+export default EditDriver;
