@@ -19,6 +19,7 @@ import fetchDrivers from "../../hooks/useGetDrivers";
 import useDeleteDriver from "../../hooks/useDeleteDriver";
 import { useDispatch, useSelector } from "react-redux";
 import { setDrivers, setError } from "../../store/driversSlice";
+import LoadingSpinner from "../../UI/LoadingSpinner";
 
 type DriverCardProps = {
   id: number;
@@ -98,26 +99,29 @@ const Drivers = () => {
 
   const { deleteDriver } = useDeleteDriver();
 
-  if (isLoading) return <p>Loading..</p>;
-
   return (
     <>
       <ControlButtons />
-      <DriverGrid>
-        {Array.isArray(data) &&
-          data.map((driver: DriverCardProps) => (
-            <DriverCard
-              key={driver.id}
-              id={driver.id}
-              first_name={driver.first_name}
-              last_name={driver.last_name}
-              phone_number={driver.phone_number}
-              email={driver.email}
-              image_url={driver.image_url}
-              onDelete={() => deleteDriver(driver.id)}
-            />
-          ))}
-      </DriverGrid>
+
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <DriverGrid>
+          {Array.isArray(data) &&
+            data.map((driver: DriverCardProps) => (
+              <DriverCard
+                key={driver.id}
+                id={driver.id}
+                first_name={driver.first_name}
+                last_name={driver.last_name}
+                phone_number={driver.phone_number}
+                email={driver.email}
+                image_url={driver.image_url}
+                onDelete={() => deleteDriver(driver.id)}
+              />
+            ))}
+        </DriverGrid>
+      )}
     </>
   );
 };
