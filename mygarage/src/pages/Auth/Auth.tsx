@@ -5,16 +5,19 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import FormLabel from "../../UI/FormLabel";
 import TextField from "../../UI/TextField";
 import { GlassBox, LoginBtn, LoginLabel } from "./styles";
+import useLogin from "../../hooks/useLogin";
 
-type Inputs = { username: string; password: string };
+type Inputs = { email: string; password: string };
 
 const Auth = () => {
   const methods = useForm<Inputs>({
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
+
+  const { login, isLoading, error } = useLogin();
 
   const {
     register,
@@ -23,16 +26,16 @@ const Auth = () => {
   } = methods;
 
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-    console.log("wtf");
+    login(data);
   };
 
   return (
     <GlassBox>
       <LoginLabel>Login</LoginLabel>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormLabel htmlFor='username'>
+        <FormLabel htmlFor='email'>
           Username
-          <TextField type='text' id='username' {...register("username")} />
+          <TextField type='text' id='email' {...register("email")} />
         </FormLabel>
         <FormLabel htmlFor='password'>
           Password

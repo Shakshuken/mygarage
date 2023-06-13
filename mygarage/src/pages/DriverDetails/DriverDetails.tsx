@@ -15,6 +15,7 @@ import useDriver from "../../hooks/useDriver";
 import { Link, useParams } from "react-router-dom";
 import fetchDriver from "../../hooks/useDriver";
 import { useQuery } from "react-query";
+import LoadingSpinner from "../../UI/LoadingSpinner";
 
 const DriverDetails = () => {
   const { id } = useParams();
@@ -23,102 +24,109 @@ const DriverDetails = () => {
     fetchDriver(id)
   );
 
-  if (isLoading) return <p>Loading..</p>;
-
   return (
     <div>
       <ControlButtons />
 
-      <DriverContainer>
-        <DriverImg src={"http://localhost:8000" + data.data.image_url} alt='' />
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          <DriverContainer>
+            <DriverImg
+              src={"http://localhost:8000" + data.data.image_url}
+              alt=''
+            />
 
-        <div>
-          <Typography variant='h1' color='primary'>
-            {data.data.first_name} {data.data.last_name}
-          </Typography>
-          <TextBox>
-            <Typography variant='p' color='secondary'>
-              Status:
-            </Typography>
-            <Typography variant='p' color='success'>
-              On the way
-            </Typography>
-          </TextBox>
-          <TextBox>
-            <Typography variant='p' color='secondary'>
-              Car:
-            </Typography>
-            <Typography variant='p' color='primary'>
-              Audi Q5 2014
-            </Typography>
-          </TextBox>
-          <Typography variant='h2' color='primary'>
-            Driver License
-          </Typography>
-          <TextBox>
-            <Typography variant='p' color='secondary'>
-              Date of birth:
-            </Typography>
-            <Typography variant='p' color='primary'>
-              {data.data.birth_date}
-            </Typography>
-          </TextBox>
-          <TextBox>
-            <Typography variant='p' color='secondary'>
-              Date of issue:
-            </Typography>
-            <Typography variant='p' color='primary'>
-              {data.data.issue_date}
-            </Typography>
-          </TextBox>
-          <TextBox>
-            <Typography variant='p' color='secondary'>
-              Expiration date:
-            </Typography>
-            <Typography variant='p' color='primary'>
-              {data.data.expiration_date}
-            </Typography>
-          </TextBox>
-          <TextBox>
-            <Typography variant='p' color='secondary'>
-              The issuing authority:
-            </Typography>
-            <Typography variant='p' color='primary'>
-              {data.data.authority}
-            </Typography>
-          </TextBox>
-          <TextBox>
-            <Typography variant='p' color='secondary'>
-              License number:
-            </Typography>
-            <Typography variant='p' color='primary'>
-              {data.data.license_num}
-            </Typography>
-          </TextBox>
-          <TextBox>
-            <Typography variant='p' color='secondary'>
-              Category:
-            </Typography>
-            <Typography variant='p' color='primary'>
-              {data.data.category}
-            </Typography>
-          </TextBox>
-        </div>
-      </DriverContainer>
-      <Link
-        css={css`
-          text-decoration: none;
-        `}
-        to={`/edit-driver/${id}`}
-      >
-        <Button color='default'>
-          <Typography variant='slim' color='primary'>
-            Edit Details
-          </Typography>
-        </Button>
-      </Link>
+            <div>
+              <Typography variant='h1' color='primary'>
+                {data.data.first_name} {data.data.last_name}
+              </Typography>
+              <TextBox>
+                <Typography variant='p' color='secondary'>
+                  Status:
+                </Typography>
+                <Typography variant='p' color='success'>
+                  On the way
+                </Typography>
+              </TextBox>
+              <TextBox>
+                <Typography variant='p' color='secondary'>
+                  Car:
+                </Typography>
+                <Typography variant='p' color='primary'>
+                  Audi Q5 2014
+                </Typography>
+              </TextBox>
+              <Typography variant='h2' color='primary'>
+                Driver License
+              </Typography>
+              <TextBox>
+                <Typography variant='p' color='secondary'>
+                  Date of birth:
+                </Typography>
+                <Typography variant='p' color='primary'>
+                  {data.data.birth_date}
+                </Typography>
+              </TextBox>
+              <TextBox>
+                <Typography variant='p' color='secondary'>
+                  Date of issue:
+                </Typography>
+                <Typography variant='p' color='primary'>
+                  {data.data.issue_date}
+                </Typography>
+              </TextBox>
+              <TextBox>
+                <Typography variant='p' color='secondary'>
+                  Expiration date:
+                </Typography>
+                <Typography variant='p' color='primary'>
+                  {data.data.expiration_date}
+                </Typography>
+              </TextBox>
+              <TextBox>
+                <Typography variant='p' color='secondary'>
+                  The issuing authority:
+                </Typography>
+                <Typography variant='p' color='primary'>
+                  {data.data.authority}
+                </Typography>
+              </TextBox>
+              <TextBox>
+                <Typography variant='p' color='secondary'>
+                  License number:
+                </Typography>
+                <Typography variant='p' color='primary'>
+                  {data.data.license_num}
+                </Typography>
+              </TextBox>
+              <TextBox>
+                <Typography variant='p' color='secondary'>
+                  Category:
+                </Typography>
+                <Typography variant='p' color='primary'>
+                  {data.data.category}
+                </Typography>
+              </TextBox>
+            </div>
+          </DriverContainer>
+          <Link
+            css={css`
+              text-decoration: none;
+            `}
+            to={`/edit-driver/${id}`}
+          >
+            <Button color='default'>
+              <Typography variant='slim' color='primary'>
+                Edit Details
+              </Typography>
+            </Button>
+          </Link>
 
-      <DriverTable />
+          <DriverTable />
+        </>
+      )}
     </div>
   );
 };

@@ -18,6 +18,7 @@ import fetchCars from "../../hooks/useGetCars";
 import useDeleteCar from "../../hooks/useDeleteCar";
 import { setCars, setError } from "../../store/carsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import LoadingSpinner from "../../UI/LoadingSpinner";
 
 type CarCardProps = {
   id: number;
@@ -81,22 +82,25 @@ const Cars = () => {
 
   const { deleteCar } = useDeleteCar();
 
-  if (isLoading) return <p>Loading..</p>;
-
   return (
     <>
       <ControlButtons />
-      <CarGrid>
-        {data.map((car: CarCardProps) => (
-          <CarCard
-            id={car.id}
-            name={car.name}
-            description={car.description}
-            image_url={car.image_url}
-            onDelete={() => deleteCar(car.id)}
-          />
-        ))}
-      </CarGrid>
+
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <CarGrid>
+          {data.map((car: CarCardProps) => (
+            <CarCard
+              id={car.id}
+              name={car.name}
+              description={car.description}
+              image_url={car.image_url}
+              onDelete={() => deleteCar(car.id)}
+            />
+          ))}
+        </CarGrid>
+      )}
     </>
   );
 };
