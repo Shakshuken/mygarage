@@ -1,13 +1,19 @@
-/* @jsxImportSource @emotion/react */
-
+import React from "react";
 import { css } from "@emotion/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import FormLabel from "../../UI/FormLabel";
 import TextField from "../../UI/TextField";
 import { GlassBox, LoginBtn, LoginLabel } from "./styles";
 import useLogin from "../../hooks/useLogin";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../store/authSlice";
+import { redirect, useNavigate } from "react-router-dom";
+import LoadingSpinner from "../../UI/LoadingSpinner";
 
-type Inputs = { email: string; password: string };
+type Inputs = {
+  email: string;
+  password: string;
+};
 
 const Auth = () => {
   const methods = useForm<Inputs>({
@@ -17,7 +23,10 @@ const Auth = () => {
     },
   });
 
+  const navigate = useNavigate();
+
   const { login, isLoading, error } = useLogin();
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -25,25 +34,35 @@ const Auth = () => {
     formState: { errors },
   } = methods;
 
-  const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-    login(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
+    const isAuthenticated: boolean = await login(data);
+    if (isAuthenticated) {
+      dispatch(loginSuccess());
+      navigate("/");
+    }
   };
 
   return (
-    <GlassBox>
-      <LoginLabel>Login</LoginLabel>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormLabel htmlFor='email'>
-          Username
-          <TextField type='text' id='email' {...register("email")} />
-        </FormLabel>
-        <FormLabel htmlFor='password'>
-          Password
-          <TextField type='text' id='password' {...register("password")} />
-        </FormLabel>
-        <LoginBtn type='submit'>Login</LoginBtn>
-      </form>
-    </GlassBox>
+    <>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <GlassBox>
+          <LoginLabel>Login</LoginLabel>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <FormLabel htmlFor='email'>
+              Username
+              <TextField type='text' id='email' {...register("email")} />
+            </FormLabel>
+            <FormLabel htmlFor='password'>
+              Password
+              <TextField type='text' id='password' {...register("password")} />
+            </FormLabel>
+            <LoginBtn type='submit'>Login</LoginBtn>
+          </form>
+        </GlassBox>
+      )}
+    </>
   );
 };
 

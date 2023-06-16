@@ -29,6 +29,8 @@ type CarCardProps = {
 };
 
 const CarCard: FC<CarCardProps> = ({ id, name, image_url, onDelete }) => {
+  console.log(image_url);
+
   return (
     <CarCardBox>
       <CarImg src={"http://localhost:8000" + image_url} alt='car' />

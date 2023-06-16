@@ -1,6 +1,8 @@
 /* @jsxImportSource @emotion/react */
 
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   HeaderBox,
   LinkBox,
@@ -10,8 +12,26 @@ import {
   NavBox,
 } from "./styles";
 import { css } from "@emotion/react";
+import { logoutSuccess, selectIsAuthenticated } from "../../../store/authSlice";
+import useLogout from "../../../hooks/useLogout";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const { logout } = useLogout();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    if (!isAuthenticated) {
+      return;
+    } else {
+      logout();
+      dispatch(logoutSuccess());
+      localStorage.clear();
+    }
+  };
+
   return (
     <HeaderBox>
       <NavBox>
@@ -69,8 +89,9 @@ const Header = () => {
           text-decoration: none;
         `}
         to='/login'
+        onClick={isAuthenticated ? handleLogout : () => navigate("/login")}
       >
-        <LoginLabel>Login</LoginLabel>
+        <LoginLabel>{isAuthenticated ? "Logout" : "Login"}</LoginLabel>
         <img
           src='/icons/material-symbols_arrow-drop-down-rounded.svg'
           alt='arrow down'

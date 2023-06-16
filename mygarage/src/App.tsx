@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import AppLayout from "./layouts/AppLayout";
 import Auth from "./pages/Auth/Auth";
 import CarDetails from "./pages/CarDetails/CarDetails";
@@ -14,8 +14,21 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import EditCar from "./pages/EditCar/EditCar";
 import EditDriver from "./pages/EditDriver/EditDriver";
+import { PropsWithChildren, ReactNode } from "react";
 
 const queryClient = new QueryClient();
+
+interface ProtectedRouteProps {
+  children: ReactNode;
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  if (!localStorage.sessionId) {
+    return <Navigate to='/login' replace />;
+  }
+
+  return <>{children}</>;
+};
 
 function App() {
   return (
@@ -23,17 +36,87 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <AppLayout>
           <Routes>
-            <Route path='/' element={<Main />} />
-            <Route path='/cars' element={<Cars />} />
-            <Route path='/drivers' element={<Drivers />} />
+            <Route
+              path='/'
+              element={
+                <ProtectedRoute>
+                  <Main />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/cars'
+              element={
+                <ProtectedRoute>
+                  <Cars />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/drivers'
+              element={
+                <ProtectedRoute>
+                  <Drivers />
+                </ProtectedRoute>
+              }
+            />
             <Route path='/login' element={<Auth />} />
-            <Route path='/stats' element={<StatisticsPage />} />
-            <Route path='/create-car' element={<CreateCar />} />
-            <Route path='/create-driver' element={<CreateDriver />} />
-            <Route path='/edit-car/:id' element={<EditCar />} />
-            <Route path='/edit-driver/:id' element={<EditDriver />} />
-            <Route path='/cars/:id' element={<CarDetails />} />
-            <Route path='/drivers/:id' element={<DriverDetails />} />
+            <Route
+              path='/stats'
+              element={
+                <ProtectedRoute>
+                  <StatisticsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/create-car'
+              element={
+                <ProtectedRoute>
+                  <CreateCar />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/create-driver'
+              element={
+                <ProtectedRoute>
+                  <CreateDriver />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/edit-car/:id'
+              element={
+                <ProtectedRoute>
+                  <EditCar />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/edit-driver/:id'
+              element={
+                <ProtectedRoute>
+                  <EditDriver />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/cars/:id'
+              element={
+                <ProtectedRoute>
+                  <CarDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/drivers/:id'
+              element={
+                <ProtectedRoute>
+                  <DriverDetails />
+                </ProtectedRoute>
+              }
+            />
             <Route path='*' element={<p>Not Found</p>} />
           </Routes>
         </AppLayout>
